@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi niña linda ❤️</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="touch-hint">✨ Toca a Buny ✨</div>
+
+        <div class="dog-avatar" id="buny-container">
+            <img src="{{ url_for('static', filename='img/perrito.png') }}" onclick="bark()" alt="Buny">
+            <div id="love-badge" class="love-badge">¡WOOF! LOVE!</div>
+        </div>
+
+        <form action="/login" method="POST" class="login-form" id="main-form">
+            <input type="text" name="nombre" placeholder="Escribe tu nombre chiquita" required>
+            <input type="password" name="password" placeholder="Te acuerdas del dia de nuestro primer beso?" required>
+            <button type="submit">Entrar a mi corazón</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div id="error-box">
+                {% for message in messages %}
+                  <p class="error-msg">{{ message }}</p>
+                {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        function bark() {
+            const badge = document.getElementById('love-badge');
+            const container = document.getElementById('buny-container');
+            const audio = new Audio("{{ url_for('static', filename='sounds/bark.mp3') }}");
+            
+            audio.play().catch(e => console.log("Audio esperando clic"));
+            badge.style.display = 'block';
+
+            // Corazones
+            for(let i=0; i<5; i++) {
+                const heart = document.createElement('span');
+                heart.innerHTML = '❤️';
+                heart.className = 'heart-particle';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+            setTimeout(() => { badge.style.display = 'none'; }, 1000);
+        }
+
+        // Animación de error (Sacudida)
+        const errorBox = document.getElementById('error-box');
+        if (errorBox) {
+            const card = document.querySelector('.login-card');
+            card.classList.add('shake');
+            setTimeout(() => card.classList.remove('shake'), 500);
+        }
+
+        // Transición de salida
+        /*
+        document.getElementById('main-form').onsubmit = function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.8s';
+        };
+        */
+    </script>
+</body>
+</html>

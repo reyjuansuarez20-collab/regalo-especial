@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para mi niña linda ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --ancho-sobre: 320px; }
+        @media (max-width: 370px) { :root { --ancho-sobre: 280px; } }
+
+        body {
+            background: linear-gradient(-45deg, #ffc1e3, #fce4ec, #ff80ab, #f8bbd0);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            padding-bottom: 40px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- MARCO DE CORAZONES --- */
+        .hearts-frame { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 1; pointer-events: none;
+        }
+        
+        .floating-heart {
+            position: absolute; width: 100px; height: 100px; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            z-index: 2; animation: heartBeat 2s infinite ease-in-out;
+            pointer-events: all;
+        }
+
+        @media (max-width: 400px) { .floating-heart { width: 90px; height: 90px; } }
+
+        .heart-svg { position: absolute; width: 100%; height: 100%; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.25)); }
+        .heart-overlay { position: absolute; width: 40%; height: 20%; background: rgba(255,255,255,0.3); top: 20%; left: 20%; border-radius: 50%; filter: blur(5px); }
+        .heart-text { position: relative; color: #f0ec0d; font-size: 11px; font-weight: 800; text-transform: uppercase; z-index: 10; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); margin-top: -5px; }
+
+        @keyframes heartBeat { 0%, 100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.1) rotate(2deg); } }
+
+        /* --- SOBRE --- */
+        .envelope-wrapper { position: relative; z-index: 100; width: var(--ancho-sobre); height: 200px; }
+        .envelope {
+            width: 100%; height: 100%; background: #d63447;
+            border-radius: 0 0 15px 15px; position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        .envelope::before {
+            content: ""; position: absolute; top: 0; left: 0; 
+            border-top: calc(var(--ancho-sobre) * 0.45) solid #f05454;
+            border-left: calc(var(--ancho-sobre) * 0.5) solid transparent;
+            border-right: calc(var(--ancho-sobre) * 0.5) solid transparent;
+            z-index: 10; transform-origin: top; transition: transform 0.9s ease;
+        }
+
+        /* --- PERGAMINO CON EFECTO FUEGO --- */
+        .paper {
+            position: absolute; top: 10px; left: 5%; width: 90%; height: 170px; 
+            background: #fdf5e6 url('https://www.transparenttextures.com/patterns/parchment.png');
+            z-index: 5; padding: 35px 20px; box-sizing: border-box;
+            transition: all 1.3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 3px;
+            overflow-y: auto;
+            border: 2px solid transparent;
+        }
+
+        /* El efecto de fuego sutil cuando se abre */
+        .opened .paper { 
+            height: 480px; 
+            transform: translateY(-430px); 
+            z-index: 150; 
+            border: 2px solid #ff4500;
+            box-shadow: 0 0 15px #ff4500, 0 0 30px #ff8c00, 0 0 45px #ffd700;
+            animation: fireGlow 1.5s infinite alternate;
+        }
+
+        @keyframes fireGlow {
+            0% { box-shadow: 0 0 10px #ff4500, 0 0 20px #ff8c00; }
+            100% { box-shadow: 0 0 20px #ff4500, 0 0 40px #ff8c00, 0 0 60px #ffd700; }
+        }
+
+        .paper-content { font-family: 'Great Vibes', cursive; font-size: 20px; color: #4e342e; text-align: center; line-height: 1.4; }
+
+        .ribbon {
+            position: absolute; top: 20%; left: 50%; transform: translate(-50%, 0);
+            width: 55px; height: 110px; background: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728);
+            z-index: 25; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            border-radius: 0 0 5px 5px; border: 1px solid #d4af37;
+        }
+        .ribbon span { writing-mode: vertical-rl; color: #5e0000; font-weight: 800; font-size: 13px; }
+        .opened .ribbon { opacity: 0; pointer-events: none; }
+
+        .petal { position: fixed; top: -10%; pointer-events: none; z-index: 200; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+         .btn-next {
+        position: relative; /* Cambiado a relativo para que fluya después del texto */
+        display: none;      /* Oculto por defecto */
+        margin: 20px auto;
+        background: #d63447;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        border: 2px solid #fff;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        font-family: 'Poppins', sans-serif;
+        animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="/static/sounds/fondo.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="hearts-frame" id="hearts-frame"></div>
+
+    <div class="envelope-wrapper" id="wrapper">
+        <div class="ribbon" id="ribbon-btn"><span>DESLIZA ABAJO</span></div>
+        <div class="envelope"><div class="paper"><div class="paper-content" id="typewriter"></div></div></div>
+    </div>
+
+    <button id="btn-continue" class="btn-next" onclick="window.location.href='/final'">Continuar ❤️</button>
+
+    <script>
+          
+           
+        const wrapper = document.getElementById('wrapper');
+        const ribbon = document.getElementById('ribbon-btn');
+        const btnContinue = document.getElementById('btn-continue');
+        const textContainer = document.getElementById('typewriter');
+        const music = document.getElementById('bg-music');
+        
+        // El botón inicia oculto
+        btnContinue.style.display = "none";
+
+        // EL MENSAJE DE TU CARTA (Cámbialo a tu gusto)
+        const mensajeCarta = "Hola mi amor... Quería decirte que eres lo más lindo que me ha pasado. Gracias por estar conmigo y por ser mi loquita favorita. Dios tiene el control de nuestra relacion y estoy seguro que nuestro futuro su   AMOR   funca faltara. Eres mi primer pensamiento del dia, y tambien al dormir estoy pensando en ti. Gracias por llegar a mi vida de esta forma tan especial.  ¡Te amo muchísimo! ❤️";
+
+        const cumplidos = ["me encantas", "mi chiquita", "mi loca", "mi dormilona", "eres mia", "mi amor", "te amo", "eres unica", "preciosa", "ojitos lindos", "mi greñuda", "mi hormiga", "te pasas", "santo", "gloria", "aleluya", "eres la primera", "te quiero", "estas buena", "hermosa", "belleza", "panameña", "te extraño", "mi todo"];
+        const colores = ["#ff4d6d", "#ff758f", "#c9184a", "#ff0a54"];
+        const positions = [
+              {t:'5%',l:'5%'}, {t:'7%',l:'25%'}, {t:'6%',l:'47%'}, {t:'5%',l:'70%'}, {t:'27%',l:'48%'},
+              {t:'28%',l:'3%'}, {t:'24%',l:'75%'}, {t:'42%',l:'3%'}, {t:'48%',l:'75%'}, {t:'38%',l:'50%'},
+              {t:'50%',l:'50%'}, {t:'59%',l:'25%'}, {t:'59%',l:'70%'}, {t:'35%',l:'70%'}, {t:'35%',l:'25%'},
+              {t:'48%',l:'20%'}, {t:'18%',l:'38%'}, {t:'18%',l:'62%'}, {t:'75%',l:'38%'}, {t:'75%',l:'62%'},
+              {t:'17%',l:'8%'}, {t:'22%',l:'23%'}, {t:'80%',l:'3%'}, {t:'80%',l:'80%'}
+        ];
+
+        // Función de escritura letra por letra
+        function typeWriter(texto, i) {
+            if (i < texto.length) {
+                textContainer.innerHTML += texto.charAt(i);
+                setTimeout(() => typeWriter(texto, i + 1), 60); // Velocidad 60ms
+            } else {
+                // CUANDO TERMINA EL TEXTO APARECE EL BOTÓN
+                btnContinue.style.display = "block";
+                btnContinue.style.margin = "20px auto"; // Centrado básico
+            }
+        }
+
+        // Función para mostrar el cumplido al tocar el corazón
+        function mostrarBurbuja(e, lista) {
+            const texto = lista[Math.floor(Math.random() * lista.length)];
+            const bubble = document.createElement('div');
+            bubble.innerText = texto;
+            bubble.style.position = 'fixed';
+            bubble.style.left = e.clientX + 'px';
+            bubble.style.top = e.clientY + 'px';
+            bubble.style.background = '#ff4d6d';
+            bubble.style.color = 'white';
+            bubble.style.padding = '8px 15px';
+            bubble.style.borderRadius = '20px';
+            bubble.style.fontWeight = 'bold';
+            bubble.style.zIndex = '1000';
+            bubble.style.pointerEvents = 'none';
+            bubble.style.boxShadow = '0 4px 10px rgba(0,0,0,0.3)';
+            bubble.style.animation = 'fadeOutUp 2s forwards';
+            
+            document.body.appendChild(bubble);
+            setTimeout(() => bubble.remove(), 2000);
+        }
+
+        // Agregar animación de salida para las burbujas
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes fadeOutUp { 
+            0% { opacity: 1; transform: translateY(0); } 
+            100% { opacity: 0; transform: translateY(-50px); } 
+        }`;
+        document.head.appendChild(style);
+
+        function initHearts() {
+            const frame = document.getElementById('hearts-frame');
+            positions.forEach((pos) => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.style.top = pos.t; heart.style.left = pos.l;
+                const c = colores[Math.floor(Math.random() * colores.length)];
+                heart.innerHTML = `<div class="heart-overlay"></div><svg class="heart-svg" viewBox="0 0 24 24" style="fill:${c}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span class="heart-text">TÓCAME</span>`;
+                
+                heart.onclick = (e) => { 
+                    e.stopPropagation(); 
+                    mostrarBurbuja(e, cumplidos);
+                };
+                
+                frame.appendChild(heart);
+            });
+        }
+
+        ribbon.addEventListener('click', () => {
+            wrapper.classList.add('opened');
+            if(music) music.play().catch(() => console.log("Audio esperando interacción"));
+            
+            // Espera a que se abra el sobre (1.3s según tu CSS) para empezar a escribir
+            setTimeout(() => {
+                typeWriter(mensajeCarta, 0);
+            }, 1300);
+        });
+
+        initHearts();
+    
+
+    </script>
+
+        
+    </script>
+</body>
+</html>

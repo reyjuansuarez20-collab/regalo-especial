@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- CRUCIAL PARA MÓVILES -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un Regalo Para Ti ❤️</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-amor: #8e0e00;
+            --color-fondo: #1f0300;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at center, var(--color-amor), var(--color-fondo));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            transition: background 3s ease;
+        }
+
+        /* BUSCA Y REEMPLAZA ESTO EN TU <style> */
+.main-container {
+    text-align: center;
+    /* Eliminamos position: absolute para que el flex del body haga su magia */
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    transition: all 1s ease-in-out;
+    z-index: 10;
+}
+
+.gift-box {
+    font-size: clamp(100px, 25vw, 150px); /* Tamaño responsivo para móvil y PC */
+    cursor: pointer;
+    display: inline-block; /* Asegura que el centrado de texto le afecte */
+    margin: 0 auto;
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+    animation: pulseSoft 2s infinite ease-in-out;
+}
+
+
+        /* AJUSTE CONTENEDOR MÓVIL */
+        .preview-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 95%; /* Más ancho en móviles */
+            max-width: 800px;
+            height: 90vh;
+            justify-content: space-between;
+        }
+
+        .media-wrapper {
+            position: relative;
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .media-content {
+            max-width: 100%;
+            max-height: 70vh; /* Para que quepa el texto abajo */
+            border: 3px solid white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            object-fit: contain;
+        }
+
+        /* BOTONES GRANDES PARA DEDOS */
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 5;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-prev { left: -10px; }
+        .btn-next { right: -10px; }
+
+        #karaoke-container {
+            width: 100%;
+            min-height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 1.2rem;
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* PANTALLA FINAL ADAPTADA */
+        #final-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: none;
+            overflow-y: auto; /* Permite scroll si el mensaje es largo en pantallas pequeñas */
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 3s ease;
+        }
+
+        .mensaje-final {
+            color: #8e0e00;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem; /* Tamaño base para móvil */
+            text-align: center;
+            max-width: 90%;
+            line-height: 1.5;
+            padding: 30px 15px;
+        }
+
+        @media (min-width: 768px) {
+            .mensaje-final { font-size: 1.8rem; }
+            .nav-btn { font-size: 2.5rem; }
+            .btn-prev { left: -50px; }
+            .btn-next { right: -50px; }
+        }
+
+        .gift-box { font-size: 120px; cursor: pointer; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    </style>
+</head>
+<body>
+
+    <audio id="musicaAmor">
+        <source src="{{ url_for('static', filename='sounds/teamo.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <div class="main-container" id="main">
+        <div style="font-size: 1.5rem; margin-bottom: 20px; padding: 0 20px;">Tengo algo especial para ti... ❤️</div>
+        <div class="gift-box" onclick="abrirRegalo()">🎁</div>
+    </div>
+
+    <div class="preview-container" id="preview">
+        <div class="media-wrapper">
+            <button class="nav-btn btn-prev" onclick="cambiarMedia(-1)">❮</button>
+            
+            <img id="imgTag" class="media-content" src="">
+            <video id="vidTag" class="media-content" style="display: none;" playsinline controls></video>
+
+            <button class="nav-btn btn-next" onclick="cambiarMedia(1)">❯</button>
+        </div>
+        
+        <div id="karaoke-container">
+            <span id="lyric-text">Cargando amor...</span>
+        </div>
+    </div>
+
+    <div id="final-screen">
+        <div class="mensaje-final">
+            A veces no es fácil vivir en este mundo, y lo único que nos mantiene con vida es el <strong>AMOR</strong> y es ese <strong>AMOR</strong> que tú y yo por su Gracia conocemos.<br><br>
+            Sé que debemos madurar, aprender, soportar, crecer y más... <br> 
+            Y le agradezco a ese <strong>AMOR</strong> que me ha permitido vivir todos esos conceptos <strong>Contigo</strong>. <br><br>
+            Cada día <strong>TE AMO MAS</strong>, MUUUUUUUUUUUUUUUUUUUUUUUUUUUcho más, eres especial para mí. Le pido a DIOS AL AMOR que nos siga bendiciendo, espero que te guste.<br>
+            <strong>ERES MIA ❤️</strong><br><br>
+            <span style="font-size: 1rem; font-family: 'Poppins'; opacity: 0.8;">Eres lo mejor que me ha pasado.</span>
+        </div>
+    </div>
+
+    <script>
+        const mediaList = [];
+        for(let i=1; i<=42; i++) {
+            mediaList.push({ type: 'img', url: `/static/img/img${i}.jpeg` });
+            if(i === 10) mediaList.push({ type: 'vid', url: '/static/videos/vid1.mp4' });
+            if(i === 20) mediaList.push({ type: 'vid', url: '/static/videos/vid2.mp4' });
+            if(i === 28) mediaList.push({ type: 'vid', url: '/static/videos/vid3.mp4' });
+            if(i === 39) mediaList.push({ type: 'vid', url: '/static/videos/vid4.mp4' });
+        }
+
+        let currentIndex = 0;
+        const audio = document.getElementById("musicaAmor");
+
+        function abrirRegalo() {
+            audio.play().catch(() => console.log("Audio requiere interacción"));
+            document.getElementById("main").style.display = "none";
+            document.getElementById("preview").style.display = "flex";
+            actualizarMedia();
+        }
+
+        function actualizarMedia() {
+            const item = mediaList[currentIndex];
+            const img = document.getElementById("imgTag");
+            const vid = document.getElementById("vidTag");
+
+            if(item.type === 'img') {
+                vid.style.display = "none"; vid.pause();
+                img.src = item.url; img.style.display = "block";
+            } else {
+                img.style.display = "none";
+                vid.src = item.url; vid.style.display = "block";
+                vid.play().catch(() => {}); 
+            }
+        }
+
+        function cambiarMedia(dir) {
+            if (currentIndex === mediaList.length - 1 && dir === 1) {
+                mostrarPantallaFinal();
+                return;
+            }
+            currentIndex = Math.max(0, Math.min(mediaList.length - 1, currentIndex + dir));
+            actualizarMedia();
+        }
+
+        function mostrarPantallaFinal() {
+            const final = document.getElementById("final-screen");
+            document.getElementById("preview").style.display = "none";
+            final.style.display = "flex";
+            setTimeout(() => {
+                final.style.opacity = "1";
+                document.body.style.background = "white";
+            }, 100);
+        }
+        
+        // Sincroniza tus letras aquí
+        const letras = [
+            { time: 0, text: "Para la mujer más hermosa... ❤️" },
+            { time: 5, text: "Cada segundo es por ti." }
+        ];
+
+        audio.ontimeupdate = () => {
+            const lyric = letras.filter(l => l.time <= audio.currentTime).pop();
+            if(lyric) document.getElementById("lyric-text").innerText = lyric.text;
+        };
+    </script>
+</body>
+</html>

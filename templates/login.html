@@ -17,8 +17,11 @@
         </div>
 
         <form action="/login" method="POST" class="login-form" id="main-form">
-            <input type="text" name="nombre" placeholder="Escribe tu nombre chiquita" required>
-            <input type="password" name="password" placeholder="Te acuerdas del dia de nuestro primer...?" required>
+            <input type="hidden" name="nombre" value="Chiquita">
+            <input type="hidden" name="password" value="acceso_directo">
+            
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">¡Buny te estaba esperando!</p>
+            
             <button type="submit">Entrar a mi corazón</button>
         </form>
 
@@ -55,22 +58,13 @@
             setTimeout(() => { badge.style.display = 'none'; }, 1000);
         }
 
-        // Animación de error (Sacudida)
+        // Animación de error (Sacudida) - Ya no debería activarse, pero la dejamos por estética
         const errorBox = document.getElementById('error-box');
         if (errorBox) {
             const card = document.querySelector('.login-card');
             card.classList.add('shake');
             setTimeout(() => card.classList.remove('shake'), 500);
         }
-
-        // Transición de salida
-        /*
-        document.getElementById('main-form').onsubmit = function() {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.8s';
-        };
-        */
     </script>
 </body>
-
 </html>

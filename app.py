@@ -3,9 +3,9 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 app = Flask(__name__)
 app.secret_key = 'mi_llave_secreta_super_romantica'
 
-# CONFIGURACIÓN: Cambia estos datos por los reales
-NOMBRE_ELLA = "yorlennie" # Escribe su nombre exacto
-FECHA_BESO = "19092025" # Formato DDMMAAAA
+# CONFIGURACIÓN ORIGINAL
+NOMBRE_ELLA = "yorlennie" 
+FECHA_BESO = "19092025" 
 
 @app.route('/')
 def index():
@@ -16,9 +16,14 @@ def login():
     nombre = request.form.get('nombre')
     password = request.form.get('password')
 
-    if nombre.lower() == NOMBRE_ELLA.lower() and password == FECHA_BESO:
-        # Aquí es donde estaba el error. Cambia el texto por esto:
-        return render_template('carta.html') 
+    # Ajuste para permitir el acceso directo del botón de Buny
+    # Comprobamos si es el acceso directo o si son los datos originales
+    es_acceso_directo = (nombre == "Chiquita" and password == "acceso_directo")
+    es_datos_reales = (nombre and nombre.lower() == NOMBRE_ELLA.lower() and password == FECHA_BESO)
+
+    if es_acceso_directo or es_datos_reales:
+        # Usamos redirect para que la URL cambie a /carta correctamente
+        return redirect(url_for('mostrar_carta'))
     else:
         flash("¡Ups! Buny dice que algo está mal... intenta de nuevo.")
         return redirect(url_for('index'))

@@ -17,11 +17,8 @@
         </div>
 
         <form action="/login" method="POST" class="login-form" id="main-form">
-            <input type="hidden" name="nombre" value="Chiquita">
-            <input type="hidden" name="password" value="acceso_directo">
-            
-            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">¡Buny te estaba esperando!</p>
-            
+            <input type="text" name="nombre" placeholder="Escribe tu nombre chiquita" required>
+            <input type="password" name="password" placeholder="¿Nuestra fecha especial? (DDMMAAAA)" required>
             <button type="submit">Entrar a mi corazón</button>
         </form>
 
@@ -45,7 +42,6 @@
             audio.play().catch(e => console.log("Audio esperando clic"));
             badge.style.display = 'block';
 
-            // Corazones
             for(let i=0; i<5; i++) {
                 const heart = document.createElement('span');
                 heart.innerHTML = '❤️';
@@ -58,7 +54,6 @@
             setTimeout(() => { badge.style.display = 'none'; }, 1000);
         }
 
-        // Animación de error (Sacudida) - Ya no debería activarse, pero la dejamos por estética
         const errorBox = document.getElementById('error-box');
         if (errorBox) {
             const card = document.querySelector('.login-card');
@@ -68,3 +63,4 @@
     </script>
 </body>
 </html>
+

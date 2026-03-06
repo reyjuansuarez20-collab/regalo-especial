@@ -3,9 +3,9 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 app = Flask(__name__)
 app.secret_key = 'mi_llave_secreta_super_romantica'
 
-# CONFIGURACIÓN ORIGINAL
+# CONFIGURACIÓN: Verifica que estos sean los datos que ella conoce
 NOMBRE_ELLA = "yorlennie" 
-FECHA_BESO = "19092025" 
+FECHA_BESO = "19092025" # Formato DDMMAAAA
 
 @app.route('/')
 def index():
@@ -16,13 +16,8 @@ def login():
     nombre = request.form.get('nombre')
     password = request.form.get('password')
 
-    # Ajuste para permitir el acceso directo del botón de Buny
-    # Comprobamos si es el acceso directo o si son los datos originales
-    es_acceso_directo = (nombre == "Chiquita" and password == "acceso_directo")
-    es_datos_reales = (nombre and nombre.lower() == NOMBRE_ELLA.lower() and password == FECHA_BESO)
-
-    if es_acceso_directo or es_datos_reales:
-        # Usamos redirect para que la URL cambie a /carta correctamente
+    # Volvemos a la validación estricta
+    if nombre and nombre.lower() == NOMBRE_ELLA.lower() and password == FECHA_BESO:
         return redirect(url_for('mostrar_carta'))
     else:
         flash("¡Ups! Buny dice que algo está mal... intenta de nuevo.")
